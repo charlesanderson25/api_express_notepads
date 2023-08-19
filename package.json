@@ -1,0 +1,25 @@
+{
+  "name": "api_express_notepads",
+  "version": "1.0.0",
+  "description": "Api com Express para consumo do frontend Notepads",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charlesanderson25/api_express_notepads.git"
+  },
+  "keywords": [
+    "API",
+    "Express",
+    "Node.js",
+    "Notepads"
+  ],
+  "author": "Charles Anderson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/charlesanderson25/api_express_notepads/issues"
+  },
+  "homepage": "https://github.com/charlesanderson25/api_express_notepads#readme"
+}
