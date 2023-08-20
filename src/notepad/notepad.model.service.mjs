@@ -1,6 +1,6 @@
 import fs from "fs";
 
-async function createNotepad(path, notepad) {
+export async function createNotepad(path, notepad) {
   const notepadString = JSON.stringify(notepad, null, 2);
   await fs.promises.writeFile(path, notepadString);
 }
@@ -8,10 +8,16 @@ async function createNotepad(path, notepad) {
 export async function readNotepad(path) {
   const notepadBuffer = await fs.promises.readFile(path);
   const notepadString = notepadBuffer.toString();
-  console.log(notepadString.id);
+  const notepad = JSON.parse(notepadString);
+  return notepad;
 }
 
-function updateNotepad() {}
-function deleteNotepad() {}
+export async function updateNotepad(path, partialNotepad) {
+  const oldNotepad = await readNotepad(path);
+  const nextNotepad = { ...oldNotepad, ...partialNotepad };
+  await createNotepad(path, nextNotepad);
+}
 
-export default createNotepad;
+export async function deleteNotepad(path) {
+  await fs.promises.unlink(path);
+}
