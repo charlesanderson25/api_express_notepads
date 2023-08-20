@@ -1,3 +1,4 @@
+import { readNotepad } from "./notepad/notepad.model.service.mjs";
 import createNotepad from "./notepad/notepad.model.service.mjs";
 
 const notepadTest = {
@@ -8,4 +9,5 @@ const notepadTest = {
   createdAt: "2023-08-03T22:59:17.534Z",
 };
 
-createNotepad("test.JSON", notepadTest);
+// createNotepad("test.JSON", notepadTest);
+readNotepad("test.JSON");
