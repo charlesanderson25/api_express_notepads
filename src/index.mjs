@@ -1,5 +1,9 @@
-import { readNotepad } from "./notepad/notepad.model.service.mjs";
-import createNotepad from "./notepad/notepad.model.service.mjs";
+import {
+  readNotepad,
+  deleteNotepad,
+  createNotepad,
+  updateNotepad,
+} from "./notepad/notepad.model.service.mjs";
 
 const notepadTest = {
   id: 1,
@@ -10,4 +14,9 @@ const notepadTest = {
 };
 
 // createNotepad("test.JSON", notepadTest);
-readNotepad("test.JSON");
+// readNotepad("test.JSON");
+// console.log(readNotepad);
+
+updateNotepad("test.JSON", {
+  title: "Novo Título Update!",
+});
