@@ -1,10 +1,11 @@
-import fs from "fs";
+import createNotepad from "./notepad/notepad.model.service.mjs";
 
-const conteudo = "Texto do arquivo teste!";
+const notepadTest = {
+  id: 1,
+  title: "Um título aqui",
+  subtitle: "Um subtitulo aqui",
+  content: "Esse é um exemplo de conteúdo mais extenso.",
+  createdAt: "2023-08-03T22:59:17.534Z",
+};
 
-try {
-  fs.writeFileSync("teste.txt", conteudo);
-  console.log("Arquivo criado com sucesso!");
-} catch (error) {
-  console.error("Erro ao criar arquivo", error);
-}
+createNotepad("test.JSON", notepadTest);
