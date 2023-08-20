@@ -5,7 +5,12 @@ async function createNotepad(path, notepad) {
   await fs.promises.writeFile(path, notepadString);
 }
 
-function readNotepad() {}
+export async function readNotepad(path) {
+  const notepadBuffer = await fs.promises.readFile(path);
+  const notepadString = notepadBuffer.toString();
+  console.log(notepadString.id);
+}
+
 function updateNotepad() {}
 function deleteNotepad() {}
 
