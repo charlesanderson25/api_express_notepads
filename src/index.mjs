@@ -22,17 +22,22 @@
 // });
 
 import express from "express";
+import {
+  readNotepad,
+  deleteNotepad,
+  createNotepad,
+  updateNotepad,
+} from "./notepad/notepad.model.service.mjs";
 
 const port = 8080;
 const host = "0.0.0.0";
 const app = express();
 app.use(express.json()); //Middleware para trabalhar com JSON
 
-app.get("/notepads/:id", (req, res) => {
+app.get("/notepads/:id", async (req, res) => {
   const notepadId = req.params.id;
-  res.send({
-    id: notepadId,
-  });
+  const notepad = await readNotepad(`data/notepads/${notepadId}.json`);
+  res.json(notepad);
 });
 
 app.listen(port, host, () => {
