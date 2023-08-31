@@ -34,10 +34,20 @@ const host = "0.0.0.0";
 const app = express();
 app.use(express.json()); //Middleware para trabalhar com JSON
 
+//Read Notepad
 app.get("/notepads/:id", async (req, res) => {
   const notepadId = req.params.id;
   const notepad = await readNotepad(`data/notepads/${notepadId}.json`);
   res.json(notepad);
+});
+
+//Create Notepad
+
+app.post("/notepads", (req, res) => {
+  console.log(req.json.id);
+  res.json({
+    hello: "Hello World",
+  });
 });
 
 app.listen(port, host, () => {
