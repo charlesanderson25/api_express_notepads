@@ -67,8 +67,8 @@ app.post("/notepads", async (req, res) => {
 app.delete("/notepads/:id", async (req, res) => {
   const notepadId = req.params.id;
   const path = `data/notepads/${notepadId}.json`;
-  const notepad = readNotepad(path);
-  await deleteNotepad(notepad);
+  const notepad = await readNotepad(path);
+  await deleteNotepad(path);
   res.status(200).json(notepad);
 });
 
