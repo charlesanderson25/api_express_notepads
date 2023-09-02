@@ -43,11 +43,25 @@ app.get("/notepads/:id", async (req, res) => {
 
 //Create Notepad
 
-app.post("/notepads", (req, res) => {
-  console.log(req.json.id);
-  res.json({
-    hello: "Hello World",
-  });
+// app.post("/notepads", async (req, res) => {
+//   const nextNotepad = req.body;
+//   const notepadPah = `data/notepads/${nextNotepad.id}.json`;
+//   await createNotepad(notepadPah, nextNotepad);
+//   res.status(201).json(nextNotepad);
+// });
+
+app.post("/notepads", async (req, res) => {
+  const nextNotepad = req.body;
+  const notepadPath = `data/notepads/${nextNotepad.id}.json`;
+
+  try {
+    await createNotepad(notepadPath, nextNotepad);
+    console.log(`Notepad criado com sucesso em ${notepadPath}`);
+    res.status(201).json(nextNotepad);
+  } catch (error) {
+    console.error(`Erro ao criar o notepad: ${error}`);
+    res.status(500).json({ error: "Erro ao criar o notepad" });
+  }
 });
 
 app.listen(port, host, () => {
