@@ -1,7 +1,7 @@
 {
   "id": 2,
-  "title": "Um título aqui",
-  "subtitle": "Um subtitulo aqui",
+  "title": "Teste Patch - Título",
+  "subtitle": "Teste Patch - Subtítulo",
   "content": "Esse é um exemplo de conteúdo mais extenso.",
   "createdAt": "2023-08-31T22:59:17.534Z"
 }
