@@ -72,6 +72,15 @@ app.delete("/notepads/:id", async (req, res) => {
   res.status(200).json(notepad);
 });
 
+app.patch("/notepads/:id", async (req, res) => {
+  const notepadId = req.params.id;
+  const partialNotepad = req.body;
+  const path = `data/notepads/${notepadId}.json`;
+  await updateNotepad(path, partialNotepad);
+  const notepad = await readNotepad(path);
+  res.status(200).json(notepad);
+});
+
 app.listen(port, host, () => {
   console.log(`Servidor express iniciado em: http://${host}:${port}`);
 });
