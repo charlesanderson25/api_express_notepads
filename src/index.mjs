@@ -38,7 +38,7 @@ app.use(express.json()); //Middleware para trabalhar com JSON
 app.get("/notepads/:id", async (req, res) => {
   const notepadId = req.params.id;
   const notepad = await readNotepad(`data/notepads/${notepadId}.json`);
-  res.json(notepad);
+  // res.status(200).json(notepad);
 });
 
 //Create Notepad
