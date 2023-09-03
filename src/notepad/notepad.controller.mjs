@@ -1,4 +1,5 @@
 import express from "express";
+import { createNotepad } from "./notepad.model.service.mjs";
 
 const notepadController = express.Router();
 
@@ -12,8 +13,8 @@ notepadController.get("/:id", async (req, res) => {
 //Create Notepad
 
 notepadController.post("/", async (req, res) => {
-  const nextNotepad = req.body;
-
+  const notepadData = req.body;
+  const notepad = await createNotepad(notepadData);
   res.status(200).json(notepad);
 
   try {
@@ -27,9 +28,8 @@ notepadController.post("/", async (req, res) => {
 
 notepadController.delete("/:id", async (req, res) => {
   const notepadId = req.params.id;
-  const path = `data/notepads/${notepadId}.json`;
-  const notepad = await readNotepad(path);
-  await deleteNotepad(path);
+
+  res.status(200).json(notepad);
 });
 
 notepadController.patch("/:id", async (req, res) => {
