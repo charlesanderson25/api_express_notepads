@@ -1,23 +1,18 @@
-import fs from "fs";
+import * as jsonService from "../json/json.service.mjs";
 
-export async function createNotepad(path, notepad) {
-  const notepadString = JSON.stringify(notepad, null, 2);
-  await fs.promises.writeFile(path, notepadString);
+const notepadsPath = "data/notepads";
+
+export async function createNotepad(data) {
+  const path = `${notepadsPath}/${nextNotepad.id}.json`;
+  await jsonService.createJson(path, data);
+  return data;
 }
 
-export async function readNotepad(path) {
-  const notepadBuffer = await fs.promises.readFile(path);
-  const notepadString = notepadBuffer.toString();
-  const notepad = JSON.parse(notepadString);
+export async function readNotepad(id) {
+  const notepad = await jsonService.readJson(`${notepadsPath}/${id}.json`);
   return notepad;
 }
 
-export async function updateNotepad(path, partialNotepad) {
-  const oldNotepad = await readNotepad(path);
-  const nextNotepad = { ...oldNotepad, ...partialNotepad };
-  await createNotepad(path, nextNotepad);
-}
+export async function updateNotepad(id, partialNotepad) {}
 
-export async function deleteNotepad(path) {
-  await fs.promises.unlink(path);
-}
+export async function deleteNotepad(id) {}
