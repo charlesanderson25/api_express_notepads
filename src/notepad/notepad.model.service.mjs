@@ -17,7 +17,7 @@ export async function updateNotepad(id, partialNotepad) {}
 
 export async function deleteNotepad(id) {
   const path = `${notepadsPath}/${id}.json`;
-  const notepad = await readNotepad(path);
-  await deleteNotepad(path);
+  const notepad = await jsonService.readJson(path);
+  await jsonService.deleteJson(path);
   return notepad; // Quando deleta-se um recurso, normalmente se retorna esse esse recurso deletado
 }
