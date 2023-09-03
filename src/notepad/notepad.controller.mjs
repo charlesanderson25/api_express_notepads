@@ -5,7 +5,7 @@ const notepadController = express.Router();
 //Read Notepad
 notepadController.get("/:id", async (req, res) => {
   const notepadId = req.params.id;
-  const notepad = await readNotepad(`data/notepads/${notepadId}.json`);
+  const notepad = await readNotepad(notepadId);
   res.status(200).json(notepad);
 });
 
@@ -13,10 +13,10 @@ notepadController.get("/:id", async (req, res) => {
 
 notepadController.post("/", async (req, res) => {
   const nextNotepad = req.body;
-  const notepadPath = `data/notepads/${nextNotepad.id}.json`;
+
+  res.status(200).json(notepad);
 
   try {
-    await createNotepad(notepadPath, nextNotepad);
     console.log(`Notepad criado com sucesso em ${notepadPath}`);
     res.status(201).json(nextNotepad);
   } catch (error) {
@@ -30,7 +30,6 @@ notepadController.delete("/:id", async (req, res) => {
   const path = `data/notepads/${notepadId}.json`;
   const notepad = await readNotepad(path);
   await deleteNotepad(path);
-  res.status(200).json(notepad);
 });
 
 notepadController.patch("/:id", async (req, res) => {
