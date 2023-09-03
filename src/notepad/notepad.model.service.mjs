@@ -1,11 +1,28 @@
+import fs from "fs";
 import * as jsonService from "../json/json.service.mjs";
+import cors from "cors";
+import express from "express";
+
+const app = express();
+app.use(cors());
 
 const notepadsPath = "data/notepads";
+const notepadLatestIdPath = "data/notepadLatestId.json";
 
 export async function createNotepad(data) {
+  const { notepadLatestId } = await jsonService.readJson(notepadLatestIdPath);
+  const notepadId = notepadLatestId + 1;
+  const nextNotepad = {
+    ...data,
+    createdAt: new Date().toJSON(),
+    id: notepadId,
+  };
   const path = `${notepadsPath}/${nextNotepad.id}.json`;
-  await jsonService.createJson(path, data);
-  return data;
+  await jsonService.createJson(path, nextNotepad);
+  await jsonService.updateJson(notepadLatestIdPath, {
+    notepadLatestId: notepadId,
+  });
+  return nextNotepad;
 }
 
 export async function readNotepad(id) {
