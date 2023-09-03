@@ -13,7 +13,12 @@ export async function readNotepad(id) {
   return notepad;
 }
 
-export async function updateNotepad(id, partialNotepad) {}
+export async function updateNotepad(id, data) {
+  const path = `${notepadsPath}/${id}.json`;
+  await jsonService.updateJson(path, data);
+  const notepad = await jsonService.readJson(path);
+  return notepad;
+}
 
 export async function deleteNotepad(id) {
   const path = `${notepadsPath}/${id}.json`;
