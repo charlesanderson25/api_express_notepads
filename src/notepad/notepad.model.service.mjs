@@ -9,6 +9,21 @@ app.use(cors());
 const notepadsPath = "data/notepads";
 const notepadLatestIdPath = "data/notepadLatestId.json";
 
+export async function listNotepads() {
+  const notepadFiles = await fs.promises.readdir(notepadsPath);
+  let notepads = [];
+  for (const notepadFile of notepadFiles) {
+    const currentNotepad = await jsonService.readJson(
+      `${notepadsPath}/${notepadFile}`
+    );
+    notepads.push(currentNotepad);
+  }
+  return {
+    notepads,
+    count: notepads.length,
+  };
+}
+
 export async function createNotepad(data) {
   const { notepadLatestId } = await jsonService.readJson(notepadLatestIdPath);
   const notepadId = notepadLatestId + 1;
