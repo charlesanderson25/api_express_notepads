@@ -2,6 +2,7 @@ import express from "express";
 import {
   createNotepad,
   deleteNotepad,
+  listNotepads,
   readNotepad,
   updateNotepad,
 } from "./notepad.model.service.mjs";
@@ -11,6 +12,11 @@ const app = express();
 app.use(cors());
 
 const notepadController = express.Router();
+
+notepadController.get("/", async (req, res) => {
+  const notepads = await listNotepads();
+  res.status(200).json(notepads);
+});
 
 //Read Notepad
 notepadController.get("/:id", async (req, res) => {
@@ -25,16 +31,9 @@ notepadController.post("/", async (req, res) => {
   const notepadData = req.body;
   const notepad = await createNotepad(notepadData);
   res.status(200).json(notepad);
-
-  //   try {
-  //     console.log(`Notepad criado com sucesso em ${notepadPath}`);
-  //     res.status(201).json(nextNotepad);
-  //   } catch (error) {
-  //     console.error(`Erro ao criar o notepad: ${error}`);
-  //     res.status(500).json({ error: "Erro ao criar o notepad" });
-  //   }
 });
 
+// Delete Notepad
 notepadController.delete("/:id", async (req, res) => {
   const notepadId = req.params.id;
   const notepad = await deleteNotepad(notepadId);
