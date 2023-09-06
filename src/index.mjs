@@ -6,8 +6,15 @@ const port = 8080;
 const host = "0.0.0.0";
 const app = express();
 app.use(express.json()); //Middleware para trabalhar com JSON
+
+app.use(
+  cors({
+    origin: "*",
+    optionsSuccessStatus: 200,
+  })
+);
+
 app.use("/notepads", notepadController);
-app.use(cors());
 
 app.listen(port, host, () => {
   console.log(`Servidor express iniciado em: http://${host}:${port}`);
