@@ -1,29 +1,4 @@
-// import {
-//   createNotepad,
-//   deleteNotepad,
-//   listNotepads,
-//   readNotepad,
-//   updateNotepad,
-// } from "./notepad.model.service.mjs";
-
-// const limit = 10;
-
-// async function notepadSeed() {
-//   console.log("Iniciando Seed...");
-
-//   for (let i = 0; i < limit; i++) {
-//     const notepad = await createNotepad({
-//       title: "Titulo Seed",
-//       subtitle: "Subtitulo Seed",
-//       content: "Conteúdo test do Seed",
-//     });
-//     console.log(`Novo notepad criado com id: ${notepad.id}`);
-//   }
-//   console.log("Seed realizando com sucesso!");
-//   //   console.log(`Resultado do Seed: ${createNotepad}`);
-// }
-
-// notepadSeed();
+import { faker } from "@faker-js/faker";
 
 import {
   createNotepad,
@@ -33,22 +8,29 @@ import {
   updateNotepad,
 } from "./notepad.model.service.mjs";
 
-const limit = 5;
+const defaultLimit = 4;
 
 async function notepadSeed() {
-  console.log(process.argv);
+  const limit = Number(process.argv[2] ?? defaultLimit);
   console.log("Iniciando seed...");
-
+  console.log(`Vão ser criados ${limit} notepads`);
   for (let i = 0; i < limit; i++) {
-    const notepad = await createNotepad({
-      title: "Teste Seed 2",
-      Subtitle: "Teste Seed 2",
-      content: "Teste conteúdo seed 2",
-    });
+    const notepadData = generateNotepad();
+
+    const notepad = await createNotepad(notepadData);
     console.log(`Notepad criado com id: ${notepad.id}`);
   }
 
   console.log("Seed realizado com sucesso!");
+}
+
+function generateNotepad() {
+  return {
+    title: faker.lorem.word(4 + Math.round(Math.random() * 5)),
+    subtitle: faker.lorem.words(6 + Math.round(Math.random() * 8)),
+    content: faker.lorem.paragraph(3 + Math.round(Math.random() * 7)),
+    createdAt: faker.date.past({ years: 5 }).toJSON,
+  };
 }
 
 notepadSeed();
