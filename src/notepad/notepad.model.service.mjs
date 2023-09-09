@@ -9,6 +9,7 @@ app.use(cors());
 const notepadsPath = "data/notepads";
 const notepadLatestIdPath = "data/notepadLatestId.json";
 
+// export async function listNotepads({ limit, offset }) { - adiciona paginação
 export async function listNotepads() {
   const notepadFiles = await fs.promises.readdir(notepadsPath);
   let notepads = [];
@@ -19,6 +20,7 @@ export async function listNotepads() {
     notepads.push(currentNotepad);
   }
   return {
+    // notepads: notepads.slice(offset, offset + limit), - adiciona paginação
     notepads,
     count: notepads.length,
   };
