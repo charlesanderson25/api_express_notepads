@@ -28,9 +28,9 @@ export async function createNotepad(data) {
   const { notepadLatestId } = await jsonService.readJson(notepadLatestIdPath);
   const notepadId = notepadLatestId + 1;
   const nextNotepad = {
-    ...data,
     createdAt: new Date().toJSON(),
     id: notepadId,
+    ...data,
   };
   const path = `${notepadsPath}/${nextNotepad.id}.json`;
   await jsonService.createJson(path, nextNotepad);
