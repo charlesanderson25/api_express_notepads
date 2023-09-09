@@ -36,6 +36,7 @@ import {
 const limit = 5;
 
 async function notepadSeed() {
+  console.log(process.argv);
   console.log("Iniciando seed...");
 
   for (let i = 0; i < limit; i++) {
