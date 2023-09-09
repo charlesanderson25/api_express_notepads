@@ -14,6 +14,11 @@ app.use(cors());
 const notepadController = express.Router();
 
 notepadController.get("/", async (req, res) => {
+  // const limit = Number(req.query.limit) ?? 30; - adiciona paginação
+  // const offset = Number(req.query.offset) ?? 0;
+  // console.log(limit, typeof limit);
+  // console.log(offset, typeof offset);
+  // const notepads = await listNotepads({ limit, offset });
   const notepads = await listNotepads();
   res.status(200).json(notepads);
 });
