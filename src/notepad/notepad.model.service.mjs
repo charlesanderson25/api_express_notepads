@@ -24,7 +24,7 @@ const notepadsConnection = connectionDataBase.query(
       console.log("Registros Encontrados:");
       console.log(results);
     }
-    connectionDataBase.end();
+    // connectionDataBase.end();
   }
 );
 
@@ -54,24 +54,72 @@ export async function listNotepads() {
 }
 
 export async function createNotepad(data) {
-  const { notepadLatestId } = await jsonService.readJson(notepadLatestIdPath);
-  const notepadId = notepadLatestId + 1;
-  const nextNotepad = {
-    createdAt: new Date().toJSON(),
-    id: notepadId,
-    ...data,
-  };
-  const path = `${notepadsPath}/${nextNotepad.id}.json`;
-  await jsonService.createJson(path, nextNotepad);
-  await jsonService.updateJson(notepadLatestIdPath, {
-    notepadLatestId: notepadId,
-  });
-  return nextNotepad;
+  // const { notepadLatestId } = await jsonService.readJson(notepadLatestIdPath);
+  // const notepadId = notepadLatestId + 1;
+  // const nextNotepad = {
+  //   createdAt: new Date().toJSON(),
+  //   id: notepadId,
+  //   ...data,
+  // };
+  // const path = `${notepadsPath}/${nextNotepad.id}.json`;
+  // await jsonService.createJson(path, nextNotepad);
+  // await jsonService.updateJson(notepadLatestIdPath, {
+  //   notepadLatestId: notepadId,
+  // });
+  // const response = connectionDataBase
+  //   .query(
+  //     /*SQL*/ `
+  //     */ INSERT INTO notepads (title, subtitle, content) VALUES (?, ?, ?);`
+  //   )
+  //   .start(data.title, data.subtitle, data.content);
+  // return response;
+
+  try {
+    const query =
+      "INSERT INTO notepads (title, subtitle, content) VALUES (?, ?, ?);";
+    const values = [data.title, data.subtitle, data.content];
+
+    const [result] = await connectionDataBase.promise().query(query, values);
+
+    if (result.affectedRows === 1) {
+      return "Registros inseridos com sucesso!";
+    } else {
+      return "Nenhum registro inserido, por favor verifique!";
+    }
+  } catch (error) {
+    console.error("Erro na consulta", error);
+    throw error;
+  }
 }
 
+// export async function readNotepad(id) {
+//   // const notepad = await jsonService.readJson(`${notepadsPath}/${id}.json`);
+//   // return notepad;
+//   const notepad = connectionDataBase.query(
+//     "Select * from notepads where id=?",
+//     [id]
+//   );
+//   return notepad;
+// }
+
 export async function readNotepad(id) {
-  const notepad = await jsonService.readJson(`${notepadsPath}/${id}.json`);
-  return notepad;
+  try {
+    const [rows] = await connectionDataBase.promise().query(
+      /*SQL*/
+      `SELECT * FROM notepads WHERE id = ?`,
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return null; // Retorna null se nenhum registro for encontrado com o ID fornecido
+    }
+
+    const notepad = rows[0];
+    return notepad;
+  } catch (error) {
+    console.error("Erro na consulta:", error);
+    throw error; // Propaga o erro para ser tratado em um nível superior, se necessário
+  }
 }
 
 export async function updateNotepad(id, data) {
