@@ -8,7 +8,7 @@ import {
   updateNotepad,
 } from "./notepad.model.service.mjs";
 
-const defaultLimit = 4;
+const defaultLimit = 100;
 
 async function notepadSeed() {
   const limit = Number(process.argv[2] ?? defaultLimit);
