@@ -140,8 +140,23 @@ export async function updateNotepad(id, data) {
 }
 
 export async function deleteNotepad(id) {
-  const path = `${notepadsPath}/${id}.json`;
-  const notepad = await jsonService.readJson(path);
-  await jsonService.deleteJson(path);
-  return notepad; // Quando deleta-se um recurso, normalmente se retorna esse esse recurso deletado
+  // const path = `${notepadsPath}/${id}.json`;
+  // const notepad = await jsonService.readJson(path);
+  // await jsonService.deleteJson(path);
+  // return notepad; // Quando deleta-se um recurso, normalmente se retorna esse esse recurso deletado
+
+  try {
+    const query = "DELETE FROM notepads WHERE id = ?";
+    const values = [id];
+
+    const [result] = await connectionDataBase.promise().query(query, values);
+    if (result.affectedRows === 1) {
+      return "Registro excluído com sucesso!";
+    } else {
+      return "Nenhum registro excluído, verifique o ID.";
+    }
+  } catch (error) {
+    console.error("Erro na consulta", error);
+    throw error;
+  }
 }
