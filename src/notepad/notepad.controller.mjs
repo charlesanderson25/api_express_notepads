@@ -46,9 +46,9 @@ notepadController.delete("/:id", async (req, res) => {
 });
 
 notepadController.put("/:id", async (req, res) => {
-  const partialNotepad = req.body;
+  const notepadData = req.body;
   const notepadId = req.params.id;
-  const notepad = await updateNotepad(notepadId, partialNotepad);
+  const notepad = await updateNotepad(notepadId, notepadData);
   res.status(200).json(notepad);
 });
 
