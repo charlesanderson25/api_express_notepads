@@ -2,6 +2,15 @@ import fs from "fs";
 import * as jsonService from "../json/json.service.mjs";
 import cors from "cors";
 import express from "express";
+import { connectionDataBase } from "../db.mjs";
+
+connectionDataBase.connect((err) => {
+  if (err) {
+    console.error("Erro na conexão com o Banco de Dados", err);
+  } else {
+    console.log("Banco de Dados conectado com sucesso");
+  }
+});
 
 const app = express();
 app.use(cors());
