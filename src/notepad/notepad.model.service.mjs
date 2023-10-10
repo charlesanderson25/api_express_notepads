@@ -5,7 +5,7 @@ import express from "express";
 import { connectionDataBase } from "../db.mjs";
 import { error } from "console";
 
-//Teste conexão banco de dados
+//Teste conexão banco de dados **********************************************
 
 connectionDataBase.connect((err) => {
   if (err) {
@@ -28,7 +28,7 @@ const notepadsConnection = connectionDataBase.query(
   }
 );
 
-// Fim do teste conexão banco de dados
+// Fim do teste conexão banco de dados **********************************************
 
 const app = express();
 app.use(cors());
