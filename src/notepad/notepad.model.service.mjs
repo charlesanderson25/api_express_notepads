@@ -76,13 +76,23 @@ export async function createNotepad(data) {
 
   try {
     const query =
-      "INSERT INTO notepads (title, subtitle, content) VALUES (?, ?, ?);";
+      "INSERT INTO notepads (title, subtitle, content) VALUES (?, ?, ?)";
     const values = [data.title, data.subtitle, data.content];
 
-    const [result] = await connectionDataBase.promise().query(query, values);
+    await connectionDataBase.promise().query(query, values);
 
-    if (result.affectedRows === 1) {
-      return "Registros inseridos com sucesso!";
+    const [lastInsertResult] = await connectionDataBase
+      .promise()
+      .query("SELECT LAST_INSERT_ID() as lastInsertId");
+
+    const lastInsertId = lastInsertResult[0].lastInsertId;
+
+    const [result] = await connectionDataBase
+      .promise()
+      .query("SELECT * FROM notepads WHERE id = ?", [lastInsertId]);
+
+    if (result.length === 1) {
+      return result[0];
     } else {
       return "Nenhum registro inserido, por favor verifique!";
     }
