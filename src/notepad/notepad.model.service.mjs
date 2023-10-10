@@ -3,6 +3,9 @@ import * as jsonService from "../json/json.service.mjs";
 import cors from "cors";
 import express from "express";
 import { connectionDataBase } from "../db.mjs";
+import { error } from "console";
+
+//Teste conexão banco de dados
 
 connectionDataBase.connect((err) => {
   if (err) {
@@ -11,6 +14,21 @@ connectionDataBase.connect((err) => {
     console.log("Banco de Dados conectado com sucesso");
   }
 });
+
+const notepadsConnection = connectionDataBase.query(
+  "Select * from notepads",
+  (err, results) => {
+    if (err) {
+      console.error("Erro na consulta ao banco de dados", err);
+    } else {
+      console.log("Registros Encontrados:");
+      console.log(results);
+    }
+    connectionDataBase.end();
+  }
+);
+
+// Fim do teste conexão banco de dados
 
 const app = express();
 app.use(cors());
