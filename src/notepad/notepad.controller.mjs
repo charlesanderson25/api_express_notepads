@@ -45,7 +45,7 @@ notepadController.delete("/:id", async (req, res) => {
   res.status(200).json(notepad);
 });
 
-notepadController.patch("/:id", async (req, res) => {
+notepadController.put("/:id", async (req, res) => {
   const partialNotepad = req.body;
   const notepadId = req.params.id;
   const notepad = await updateNotepad(notepadId, partialNotepad);
