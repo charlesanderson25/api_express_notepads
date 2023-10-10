@@ -133,10 +133,26 @@ export async function readNotepad(id) {
 }
 
 export async function updateNotepad(id, data) {
-  const path = `${notepadsPath}/${id}.json`;
-  await jsonService.updateJson(path, data);
-  const notepad = await jsonService.readJson(path);
-  return notepad;
+  // const path = `${notepadsPath}/${id}.json`;
+  // await jsonService.updateJson(path, data);
+  // const notepad = await jsonService.readJson(path);
+  // return notepad;
+  try {
+    const query =
+      "UPDATE notepads SET title = ?, subtitle = ?, content = ? WHERE id = ?;";
+    const values = [data.title, data.subtitle, data.content, id];
+
+    const [result] = await connectionDataBase.promise().query(query, values);
+
+    if (result.affectedRows === 1) {
+      return "O notepad foi atualizado com sucesso!";
+    } else {
+      return "Erro ao atualizar o notepad!";
+    }
+  } catch (error) {
+    console.error("Erro na consulta", error);
+    throw error;
+  }
 }
 
 export async function deleteNotepad(id) {
