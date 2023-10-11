@@ -37,20 +37,43 @@ const notepadsPath = "data/notepads";
 const notepadLatestIdPath = "data/notepadLatestId.json";
 
 // export async function listNotepads({ limit, offset }) { - adiciona paginação
-export async function listNotepads() {
-  const notepadFiles = await fs.promises.readdir(notepadsPath);
-  let notepads = [];
-  for (const notepadFile of notepadFiles) {
-    const currentNotepad = await jsonService.readJson(
-      `${notepadsPath}/${notepadFile}`
-    );
-    notepads.push(currentNotepad);
+// export async function listNotepads() {
+//   const notepadFiles = await fs.promises.readdir(notepadsPath);
+//   let notepads = [];
+//   for (const notepadFile of notepadFiles) {
+//     const currentNotepad = await jsonService.readJson(
+//       `${notepadsPath}/${notepadFile}`
+//     );
+//     notepads.push(currentNotepad);
+//   }
+//   return {
+//     // notepads: notepads.slice(offset, offset + limit), - adiciona paginação
+//     notepads,
+//     count: notepads.length,
+//   };
+// }
+
+export async function listNotepads(limit, offset) {
+  try {
+    const [notepads] = await connectionDataBase
+      .promise()
+      .query(
+        /* SQL */ `SELECT * FROM notepads ORDER BY id DESC LIMIT ? OFFSET ?`,
+        [limit, offset]
+      );
+
+    const [results] = await connectionDataBase
+      .promise()
+      .query(/* SQL */ `SELECT COUNT(id) AS notepad_count FROM notepads`);
+
+    return {
+      notepads,
+      count: results[0].notepad_count,
+    };
+  } catch (error) {
+    console.error("Erro na consulta", error);
+    throw error;
   }
-  return {
-    // notepads: notepads.slice(offset, offset + limit), - adiciona paginação
-    notepads,
-    count: notepads.length,
-  };
 }
 
 export async function createNotepad(data) {
