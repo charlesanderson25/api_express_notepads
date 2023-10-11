@@ -29,7 +29,7 @@ function generateNotepad() {
     title: faker.lorem.word(4 + Math.round(Math.random() * 5)),
     subtitle: faker.lorem.words(6 + Math.round(Math.random() * 8)),
     content: faker.lorem.paragraph(3 + Math.round(Math.random() * 7)),
-    createdAt: faker.date.past({ years: 5 }).toJSON,
+    created_at: faker.date.past({ years: 5 }).toJSON,
   };
 }
 
