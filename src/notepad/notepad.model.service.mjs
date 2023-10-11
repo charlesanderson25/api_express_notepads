@@ -53,22 +53,38 @@ const notepadLatestIdPath = "data/notepadLatestId.json";
 //   };
 // }
 
-export async function listNotepads(limit, offset) {
+// Deu merda na paginação!
+// export async function listNotepads(limit, offset) {
+//   try {
+//     const [notepads] = await connectionDataBase
+//       .promise()
+//       .query(
+//         /* SQL */ `SELECT * FROM notepads ORDER BY id DESC LIMIT ? OFFSET ?`,
+//         [limit, offset]
+//       );
+
+//     const [results] = await connectionDataBase
+//       .promise()
+//       .query(/* SQL */ `SELECT COUNT(id) AS notepad_count FROM notepads`);
+
+//     return {
+//       notepads,
+//       count: results[0].notepad_count,
+//     };
+//   } catch (error) {
+//     console.error("Erro na consulta", error);
+//     throw error;
+//   }
+// }
+
+export async function listNotepads() {
   try {
     const [notepads] = await connectionDataBase
       .promise()
-      .query(
-        /* SQL */ `SELECT * FROM notepads ORDER BY id DESC LIMIT ? OFFSET ?`,
-        [limit, offset]
-      );
-
-    const [results] = await connectionDataBase
-      .promise()
-      .query(/* SQL */ `SELECT COUNT(id) AS notepad_count FROM notepads`);
+      .query(/* SQL */ `SELECT * FROM notepads ORDER BY id DESC`);
 
     return {
       notepads,
-      count: results[0].notepad_count,
     };
   } catch (error) {
     console.error("Erro na consulta", error);
